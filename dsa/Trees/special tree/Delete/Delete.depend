@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1476641236 source:p:\dell 3543\documents\dsa\trees\special tree\delete\main.cpp
+	<iostream>
+	<cstdlib>
+	<algorithm>
+

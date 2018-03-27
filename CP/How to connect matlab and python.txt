@@ -1,0 +1,38 @@
+(1)
+from pymatbridge import Matlab
+mlab = Matlab(matlab='/Applications/MATLAB_R2011a.app/bin/matlab')
+mlab.start()
+res = mlab.run('path/to/yourfunc.m', {'arg1': 3, 'arg2': 5})
+print res['result']
+
+
+function format 
+
+%% MATLAB
+function lol = yourfunc(args)
+    arg1 = args.arg1;
+    arg2 = args.arg2;
+    lol = arg1 + arg2;
+end
+
+
+
+
+(2)
+import os
+....
+from django.shortcuts import render
+import matlab.engine
+....
+def result(request):
+    eng = matlab.engine.start_matlab()
+    eng.doa(nargout=0)
+    return render(request, 'result.html')
+
+
+
+url( r'result/$', views.result, name='result'),
+
+(3)
+ "mlabwrap" It is great for evaluating Matlab expressions,
+  it does (at the time of writing) not support callbacks.

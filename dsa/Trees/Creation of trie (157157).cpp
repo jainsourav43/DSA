@@ -1,0 +1,210 @@
+#include<iostream>
+#define null NULL
+#include<string.h>
+using namespace std;
+struct trnode;
+struct leafnode;
+union un
+{
+	trnode **ptr1;
+	leafnode *ptr2;
+};
+struct leafnode
+{
+	char key[50];
+};
+typedef
+struct trnode
+{
+	union un ptr;
+	int tag;
+	int count;
+} *trptr;
+int index(char str[],char str1[],int k)
+{
+	int m;
+	for( m=0;m<strlen(str);m++)
+	{
+		if(str1[k]==str[m])
+		{
+			break;
+		}
+	}
+	return m;
+}
+trptr makenode(trptr &tr1,int i,int n)
+{
+	trptr tr=tr1;int u;
+	tr->ptr.ptr1[i]=new trnode;
+	tr->ptr.ptr1[i]->ptr.ptr1=new trptr[n+1];
+	tr=tr->ptr.ptr1[i];
+	tr->tag=1;
+	for(u=0;u<=n;u++)
+	{
+		tr->ptr.ptr1[u]=null;
+	}
+	return tr;
+}
+void insert(trptr &tr1,char str[],char str1[],int n,int ind,int ke)
+{
+	trptr tr=tr1;int ti,in,i,y;
+	in=index(str,str1,ind);
+	cout<<"in =" <<in<<endl;
+    int check=0,check1=0;
+    if(ke==1)
+	for(y=0;y<=n;y++)
+	{
+		if(tr->ptr.ptr1[y]&&tr->ptr.ptr1[y]->tag==1)
+		{
+			check=1;
+		}
+	}
+	if(ind==strlen(str1)&&check==1)
+	{
+		//check=0;
+		check1=1;
+	}
+	if((tr->ptr.ptr1[in]==null&&check==0)||check1==1)
+	{
+		cout<<"if\n";
+		if(check1==0)
+		{cout<<"First\n";
+		leafnode *l;
+		l=new leafnode;
+		strcpy(l->key,str1);
+		tr->ptr.ptr1[in]=new trnode;
+		tr=tr->ptr.ptr1[in];
+		tr->tag=0;
+		tr->ptr.ptr2=l;
+	   }
+	   else 
+	   {
+	   	leafnode *l;
+		l=new leafnode;
+		strcpy(l->key,str1);
+		tr->ptr.ptr1[n]=new trnode;
+		tr=tr->ptr.ptr1[n];
+		tr->tag=0;
+		tr->ptr.ptr2=l;
+	   }
+	}
+	else if(tr->ptr.ptr1[in]&&tr->ptr.ptr1[in]->tag==0)
+	{
+		cout<<"Else if\n";
+		i=in;int j=ind;
+		trptr temp;
+		temp=tr->ptr.ptr1[in];
+		while(str1[j]==temp->ptr.ptr2->key[j])
+		{
+			cout<<"While\n";
+			i=index(str,str1,j);
+			tr=makenode(tr,i,n);
+			j++;
+		}
+	    ti=index(str,temp->ptr.ptr2->key,j);
+	   // cout<<"j = "<<j<<"ti ="<<ti<<endl;
+		tr->ptr.ptr1[ti]=temp;
+		if(strlen(str1)==j)
+		{
+			tr->ptr.ptr1[n]=new trnode;
+			tr->ptr.ptr1[n]->tag=0;
+			leafnode *l=new leafnode;
+			strcpy(l->key,str1);
+			tr->ptr.ptr1[n]->ptr.ptr2=l;
+		}
+		else 
+		{
+			ti=index(str,str1,j);//cout<<"Ti 2 ="<<ti<<endl;
+			tr->ptr.ptr1[ti]=new trnode;
+			tr->ptr.ptr1[ti]->tag=0;
+			leafnode *l=new leafnode;
+			strcpy(l->key,str1);
+			tr->ptr.ptr1[ti]->ptr.ptr2=l;
+		}
+	}
+	else
+	{
+		cout<<"Else\n";
+		ind++;
+		ke=1;
+		insert(tr->ptr.ptr1[in],str,str1,n,ind, ke);
+	}
+}
+void print(trptr tr,int n)
+{
+	if(tr!=null)
+	{
+	   
+	   	   if(tr->tag==1)
+	   	   {
+			for(int i=0;i<=n;i++)
+	   	   	print(tr->ptr.ptr1[i],n);
+		   }
+		   else if(tr->tag==0)
+		   {
+		   	cout<<tr->ptr.ptr2->key<<"    ";
+		   }
+    }
+}
+void deleteit(trptr &tr1,char str[],char str1[],int ind)
+{
+	int in;
+	trptr tr=tr1;
+	in=index(str,str1,ind);
+	if(tr->ptr.ptr1[in]->tag==0)
+	{
+		tr->ptr.ptr1[in]=null;
+	}
+	else
+	{
+		
+	}
+}
+int main()
+{
+	trptr tr;
+	leafnode *l;
+	l=new leafnode;
+	cout<<"Enter the no of characters u will be using \n";
+	int n,i,ch;
+	cin>>n;
+	cout<<"Enter the String\n";
+	char str[27],str1[27];
+	cin>>str;
+	tr=new trnode;
+	tr->ptr.ptr1=new trptr[n+1];
+	tr->tag=1;
+	for(i=0;i<=n;i++)
+	{
+		tr->ptr.ptr1[i]=null;
+	}
+	cout<<"Enter 1 for continue else -1\n";
+	cin>>ch;
+	cout<<"Enter the input string \n";
+	cin>>str1;
+	for(i=0;i<strlen(str);i++)
+	{
+		if(str1[0]==str[i])
+		{
+			break;
+		}
+	}	
+	strcpy(l->key,str1);	
+	tr->ptr.ptr1[i]=new trnode;	
+	tr->ptr.ptr1[i]->tag=0;
+	tr->ptr.ptr1[i]->ptr.ptr2=l;
+	while(ch!=-1)
+	{
+		
+		cout<<"Enter 1 for continue else -1\n";
+		cin>>ch;
+		if(ch!=-1)
+		{
+		cout<<"Enter the string to input\n";
+		cin>>str1;
+		insert(tr,str,str1,n,0,0);
+	   }
+	}
+	print(tr,n);
+
+}

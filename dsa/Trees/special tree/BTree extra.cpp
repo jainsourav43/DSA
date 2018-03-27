@@ -1,0 +1,156 @@
+struct bnode
+{
+	bnode *par;
+	int key[4];
+	bnode *ptr[5];
+	int count;
+}*bptr;
+void initialise(bptr &t)
+{
+	for(int i=0;i<=2*d;i++)
+	{
+		t->ptr[i]=null;
+	}
+	t->count=-1;
+}
+void overflow(bptr &t,bptr lc,bptr rc,int k,int a[])
+{
+	int i,j,l,che=0,b[5];
+if(t->par==null)
+{
+ bptr t2=new bnode;
+ bptr t3=new bnode;
+ initialise(t2);
+ initialise(t3);
+ for(i=0;i<d;i++)
+ {
+ 	t2->key[i]=a[i];
+ 	t3->key[i]=a[i+d+1];
+ }
+ for(i=0;i<=d;i++)
+ {
+ 	if(t2->key[i]!=k)
+ 	{
+ 		t2->ptr[i]=t->ptr[i];
+ 		if(i+1==d&&t2->key[i]!=k)
+ 		{
+ 		t2->ptr[i+1]=t->ptr[i+1];
+ 		i++;
+ 	    }
+	 }
+	 else
+	 {
+	 	che=1;
+	 	t2->ptr[i]=lc;
+	 	t2->ptr[i+1]=rc;
+	 	i++;
+	 }
+ }
+ for(i=d;i<2*d;i++)
+ {
+ 	if(t3->key[i-d]!=k)
+ 	{
+ 		if(che==1)
+ 		t3->ptr[i-d]=t->ptr[i];
+ 		else
+ 		t3->ptr[i-d]=t->ptr[i+1];
+ 		if(i+1==2*d&&t3->key[i]!=k)
+ 		{
+ 		t3->key[i+1-d]=t->ptr[i+1];
+ 		i++;
+ 	   }
+	 }
+	 else
+	 {
+	 	t3->ptr[i-d]=lc;
+	 	t3->ptr[i-d+1]=rc;
+	 	i++;
+	 }
+ }
+ initialise(t);
+ t->count++;
+ t->ptr[0]=t2;
+ t->ptr[1]=t3;
+ t->key[0]=a[d];
+}
+else
+{
+	bptr t2=new node;
+	initialise(t2);
+	for(i=0;i<d;i++)
+	{
+		t2->key[i]=a[i+d+1];
+		t2->count++;
+		t->key[i]=a[i];
+	}
+	t->count=1;
+	for(i=0;i<=d;i++)
+   {
+ 	if(t->key[i]!=k)
+ 	{
+ 		t->ptr[i]=t->ptr[i];
+ 		if(i+1==d&&t->key[i]!=k)
+ 		{
+ 		t->ptr[i+1]=t->ptr[i+1];
+ 		i++;
+ 	    }
+	 }
+	 else
+	 {
+	 	che=1;
+	 	t->ptr[i]=lc;
+	 	t->ptr[i+1]=rc;
+	 	i++;
+	 }
+  }
+ for(i=d;i<2*d;i++)
+ {
+ 	if(t2->key[i-d]!=k)
+ 	{
+ 		if(che==1)
+ 		t2->ptr[i-d]=t->ptr[i];
+ 		else
+ 		t2->ptr[i-d]=t->ptr[i+1];
+ 		if(i+1==2*d&&t2->key[i]!=k)
+ 		{
+ 		t2->key[i+1-d]=t->ptr[i+1];
+ 		i++;
+ 	   }
+	 }
+	 else
+	 {
+	 	t2->ptr[i-d]=lc;
+	 	t2->ptr[i-d+1]=rc;
+	 	i++;
+	 }
+ }
+ if(t->par->count==3)
+ {
+ 	    for(i=0;i<4;i++)
+      	b[i]=t->par->key[i];
+      	b[4]=a[d];
+      	sort(b,b+5);
+      	overflow(t->par,t,t2,a[d],b);
+ }
+ else
+ {
+ 	for(i=t->par->count;i>=0;i--)
+ 	{
+ 		if(t->par->key[i]>a[d])
+ 		{
+ 			t->key[i+1]=t->key[i];
+ 			t->ptr[i+2]=t->ptr[i+1];
+		 }
+		 else
+		 {
+		 	break;
+		 }
+ 		
+	 }
+	 t->par->key[i+1]=a[d];
+	 t->par->ptr[i+1]=t;
+	 t->par->ptr[i+2]=t3;
+	 t->par->count++;
+ }
+}	
+}

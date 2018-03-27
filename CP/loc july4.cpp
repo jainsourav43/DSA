@@ -1,0 +1,124 @@
+#include<iostream>
+#include<algorithm>
+#define ll long long
+using namespace std;
+int main()
+{
+	ll t;
+	cin>>t;
+	while(t--)
+	{
+		ll n,i,j,k=-1,l,m,z=0;
+		cin>>n;
+		ll sum=0;ll a[n];
+		bool v[n];
+		for(i=0;i<n;i++)
+		{
+			cin>>a[i];
+			sum=sum+a[i];
+			v[i]=false;
+		}
+    	sort(a,a+n);
+		ll flag,fi,fii,f;
+    	if(a[0]==0)
+		{
+			z=1;
+		}
+    	if(sum%3==0&&z==1)
+    	{k=0;
+    		for(j=n-1;j>=0;j--)
+    		{
+    			cout<<a[j];
+			}
+		}
+		else if(sum%3==1&&z==1)
+		{flag=0;
+			for(i=0;i<n;i++)
+			{
+				if(a[i]%3==1)
+				{   
+				    flag=1;
+					v[i]=true;
+					break;
+				}
+			}
+			if(flag==1)
+			{k=0;
+			for(i=n-1;i>=0;i--)
+			{
+				if(v[i]==false)
+				cout<<a[i];
+			}
+		   }
+			else
+			{f=0;
+				for(i=0;i<n&&f<2;i++)
+				{
+					if(a[i]%3==2)
+					{
+						v[i]=true;
+						f++;
+					}
+				}
+				if(f==2)
+				{k=0;
+				for(i=n-1;i>=0;i--)
+				{
+				  if(v[i]==false)
+			    	cout<<a[i];
+				}
+				//cout<<k<<endl;
+			}
+			}
+		}
+		else if(sum%3==2&&z==1)
+		{fi=0;
+			for(i=0;i<n;i++)
+			{
+				if(a[i]%3==2)
+				{
+				    fi++;
+					v[i]=true;
+					break;
+				}
+			}
+			if(fi==1)
+			{k=0;
+				for(i=n-1;i>=0;i--)
+				{
+					if(v[i]==false)
+					cout<<a[i];
+				}
+			}
+			else{
+				fii=0;
+				for(i=0;i<n&&fii<2;i++)
+				{
+					if(a[i]%3==1)
+					{
+						fii++;
+						v[i]=true;
+					}
+				}
+				if(fii==2)
+				{k=0;
+				for(i=n-1;i>=0;i--)
+				{
+					if(v[i]==false)
+					{
+						cout<<a[i];
+					}
+				}
+			}
+			}	
+		}
+		if(z==0)
+		{
+			cout<<-1<<endl;
+		}
+		else
+		{
+			cout<<endl;
+		}
+	}
+}

@@ -1,0 +1,30 @@
+//    gptr t=g;int m;
+//    int k=0;int che;
+//    if(g!=null)
+//    {
+//    m=find(g);
+//	for(int y=m;y<t->count;y++)
+//	{
+//	if(t->count==0)
+//	{
+//	if(g!=null)
+//	{k++;
+//	if(k<=2)
+//	{cout<<"FOR\n";
+//	insertbt(t2,g,y);	
+//    che =check(g);
+//	 if(che==1)
+//	 {cout<<"CHe\n";
+//	 	if(g->par!=null)
+//	 	g->par->next[in]==null;
+//	     else
+//	     g=null;
+//	 }
+//	if(g->count>y)
+//	{ cout<<"Again\n";
+//	transverse(t->next[y],t2,y);
+//    }  
+//     }
+//   } 
+//}
+//}
